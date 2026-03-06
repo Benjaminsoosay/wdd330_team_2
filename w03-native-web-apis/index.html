@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Native Browser Web APIs Demo</title>
+  <link rel="stylesheet" href="/style.css/css"> 
+</head>
+<body>
+  <main>
+   
+    <section>
+      <h1> sessionStorage</h1>
+      <p>Store your name temporarily. It will persist only during this tab session.</p>
+      <label for="nameInput">Enter Your Name:</label>
+      <input type="text" id="nameInput" placeholder="e.g., John">
+      <button id="storeNameBtn">Store Name</button>
+      <p id="welcomeMessage"></p>
+      <ol>
+        <li>Enter your name and click "Store Name".</li>
+        <li>Refresh the page – the welcome message should reappear.</li>
+        <li>Open the same page in a new tab – the message will be gone.</li>
+      </ol>
+    </section>
+
+    
+    <section>
+      <h1> Validation API</h1>
+      <p>Enter a code that meets these rules:</p>
+      <ul>
+        <li>At least 6 characters long</li>
+        <li>Contains exactly 1 uppercase letter</li>
+        <li>Contains exactly 2 digits</li>
+        <li>Only letters and digits (no special characters)</li>
+      </ul>
+      <label for="codeInput">Enter Code:</label>
+      <input type="password" id="codeInput" 
+             required 
+             pattern="^(?=(?:[^A-Z]*[A-Z]){1}[^A-Z]*$)(?=(?:\D*\d){2}\D*$)[A-Za-z\d]{6,}$"
+             placeholder="e.g., Abc123">
+      <button id="checkCodeBtn">Check Code</button>
+      <div id="validationMessage"></div>
+    </section>
+
+  
+    <section>
+      <h1> Geolocation</h1>
+      <p>Click the button to get your current geographic coordinates and region.</p>
+      <button id="getLocationBtn">Get My Location</button>
+      <div id="locationResult"></div>
+    </section>
+  </main>
+
+  <script src="/script.js/javascript"></script> 
+</body>
+</html>

@@ -1,0 +1,93 @@
+/* style.css */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  background: #f9f9f9;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+section {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  padding: 1.5rem;
+}
+
+h1 {
+  font-size: 1.8rem;
+  margin-top: 0;
+  color: #333;
+  border-bottom: 2px solid #eaeaea;
+  padding-bottom: 0.5rem;
+}
+
+label {
+  font-weight: 600;
+  display: block;
+  margin: 1rem 0 0.3rem;
+}
+
+input, button {
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+button {
+  background-color: #0077cc;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-left: 0.5rem;
+}
+
+button:hover {
+  background-color: #005fa3;
+}
+
+/* Validation API – real‑time feedback */
+#codeInput:focus:valid {
+  background-color: #e5ffe5;
+  border-color: #2e7d32;
+}
+
+#codeInput:focus:invalid {
+  background-color: #ffffe0;
+  border-color: #b0850e;
+}
+
+/* Result boxes */
+#welcomeMessage,
+#validationMessage,
+#locationResult {
+  margin-top: 1rem;
+  padding: 0.8rem;
+  border-radius: 8px;
+  background-color: #f0f0f0;
+  border-left: 4px solid #0077cc;
+  font-weight: 500;
+  min-height: 1.5em;
+}
+
+#validationMessage {
+  visibility: hidden; /* initially hidden, shown after button click */
+}
+
+/* Instructions lists */
+ol, ul {
+  padding-left: 1.5rem;
+  color: #555;
+}
+
+li {
+  margin: 0.3rem 0;
+}
