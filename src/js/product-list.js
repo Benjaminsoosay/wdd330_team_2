@@ -2,6 +2,11 @@
 
 // Function to fetch tents data
 async function loadTents() {
+  const container = document.getElementById('product-list-container');
+  // Show loading message
+  if (container) {
+    container.innerHTML = '<p class="loading">Loading products...</p>';
+  }
   try {
     const response = await fetch('/json/tents.json');
     const tents = await response.json();
