@@ -1,41 +1,34 @@
 // ProductList.mjs
+
+// Template function for a single product card
+function productCardTemplate(product) {
+  return `
+    <li class="product-card">
+      <a href="product_pages/?product=${product.id}">
+        <img src="${product.image}" alt="Image of ${product.name}">
+        <h2 class="card__brand">${product.brand}</h2>
+        <h3 class="card__name">${product.name}</h3>
+        <p class="product-card__price">$${product.price}</p>
+      </a>
+    </li>
+  `;
+}
+
 export default class ProductList {
   constructor(category, dataSource, listElement) {
     this.category = category;
     this.dataSource = dataSource;
     this.listElement = listElement;
-    this.products = []; // will hold the product data
   }
 
   async init() {
-    // Fetch product data asynchronously
-    this.products = await this.dataSource.getData();
-    // Filter products by category
-    this.products = this.products.filter(item => item.category === this.category);
-    // Render the product list
-    this.renderList();
+    const list = await this.dataSource.getData(this.category);
+    this.renderList(list);
   }
 
-  renderList() {
-    // Clear any existing content
-    this.listElement.innerHTML = "";
-
-    // Loop through products and create HTML cards
-    this.products.forEach(product => {
-      const card = this.renderProductCard(product);
-      this.listElement.appendChild(card);
-    });
+  renderList(list) {
+    // Use the reusable utility function
+    renderListWithTemplate(productCardTemplate, this.listElement, list, "afterbegin", true);
   }
 
-  renderProductCard(product) {
-    // Create a simple product card using template literals
-    const card = document.createElement("div");
-    card.classList.add("product-card");
-    card.innerHTML = `
-      <h2>${product.name}</h2>
-      <p>${product.description}</p>
-      <p>Price: $${product.price}</p>
-    `;
-    return card;
-  }
 }
