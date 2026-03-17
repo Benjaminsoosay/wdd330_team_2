@@ -2,18 +2,18 @@
 export function qs(selector, parent = document) {
   return parent.querySelector(selector);
 }
-// or a more concise version if you are into that sort of thing:
-// export const qs = (selector, parent = document) => parent.querySelector(selector);
 
 // retrieve data from localstorage
 export function getLocalStorage(key) {
   const data = localStorage.getItem(key);
   return data ? JSON.parse(data) : [];
 }
+
 // save data to local storage
 export function setLocalStorage(key, data) {
   localStorage.setItem(key, JSON.stringify(data));
 }
+
 // set a listener for both touchend and click
 export function setClick(selector, callback) {
   qs(selector).addEventListener("touchend", (event) => {
@@ -23,6 +23,7 @@ export function setClick(selector, callback) {
   qs(selector).addEventListener("click", callback);
 }
 
+// render a list with a template function
 export function renderListWithTemplate(
   templateFn,
   parentElement,
@@ -40,4 +41,22 @@ export function renderListWithTemplate(
 
   // Insert the combined HTML into the parent element
   parentElement.insertAdjacentHTML(position, htmlStrings.join(""));
+}
+
+// render a single template (for header/footer)
+export function renderWithTemplate(template, parentElement, data, callback) {
+  // Insert the template into the parent element
+  parentElement.innerHTML = template;
+
+  // If a callback is provided, call it
+  if (callback) {
+    callback(data);
+  }
+}
+
+// load an external HTML template
+export async function loadTemplate(path) {
+  const res = await fetch(path);
+  const template = await res.text();
+  return template;
 }
