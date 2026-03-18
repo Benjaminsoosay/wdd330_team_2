@@ -1,61 +1,33 @@
-// Render a template into a parent element
-export function renderWithTemplate(template, parentElement, data, callback) {
-    parentElement.innerHTML = template;
-    if (callback) {
-        callback(data);
-    }
-}
-
-// Load a template file
+// In src/js/utils.mjs
 export async function loadTemplate(path) {
-    const response = await fetch(path);
+    // Remove leading slash for Render
+    const cleanPath = path.startsWith('/') ? path.substring(1) : path;
+    const response = await fetch(cleanPath);
     if (!response.ok) {
-        throw new Error(`Failed to load template: ${path}`);
+        throw new Error(`Failed to load template: ${cleanPath}`);
     }
-    const template = await response.text();
-    return template;
+    return await response.text();
 }
 
-// Load header and footer
 export async function loadHeaderFooter() {
     try {
-        // Load templates
-        const headerTemplate = await loadTemplate("/partials/header.html");
-        const footerTemplate = await loadTemplate("/partials/footer.html");
+        // Use paths without leading slash for Render
+        const headerTemplate = await loadTemplate("partials/header.html");
+        const footerTemplate = await loadTemplate("partials/footer.html");
         
-        // Get elements
         const headerElement = document.getElementById("main-header");
         const footerElement = document.getElementById("main-footer");
         
-        // Render header and footer
         if (headerElement) {
-            renderWithTemplate(headerTemplate, headerElement);
+            headerElement.innerHTML = headerTemplate;
         }
         
         if (footerElement) {
-            renderWithTemplate(footerTemplate, footerElement);
+            footerElement.innerHTML = footerTemplate;
         }
-        
-        // If you have cart functionality, update cart count
-        updateCartCount(); // We'll create this function below
-        
     } catch (error) {
         console.error("Error loading header/footer:", error);
-    }
-}
-
-// Optional: Update cart count in header
-function updateCartCount() {
-    const cart = JSON.parse(localStorage.getItem("so-cart")) || [];
-    const cartIcon = document.querySelector('.cart svg');
-    if (cartIcon && cart.length > 0) {
-        // Add a cart count badge if needed
-        let badge = document.querySelector('.cart-count');
-        if (!badge) {
-            badge = document.createElement('span');
-            badge.className = 'cart-count';
-            document.querySelector('.cart').appendChild(badge);
-        }
-        badge.textContent = cart.length;
+        // Display error on page for debugging
+        document.body.insertAdjacentHTML('afterbegin', `<div style="color:red">Error: ${error.message}</div>`);
     }
 }
