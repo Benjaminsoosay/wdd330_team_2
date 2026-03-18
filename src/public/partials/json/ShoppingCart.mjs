@@ -42,4 +42,3 @@ export default class ShoppingCart {
   calculateTotal() {
     // Calculate and display total
   }
-}
