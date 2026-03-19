@@ -1,4 +1,5 @@
 // ProductList.mjs
+import { renderListWithTemplate } from "./utils.mjs";
 
 // Template function for a single product card
 function productCardTemplate(product) {
