@@ -1,7 +1,16 @@
 import { getLocalStorage } from "./utils.mjs";
-import { loadHeaderFooter } from './utils.mjs';
 
-// Load header and footer
-loadHeaderFooter();
+// Add to cart function
+export function addToCart(product) {
+    let cart = JSON.parse(localStorage.getItem('so-cart')) || [];
+    cart.push(product);
+    localStorage.setItem('so-cart', JSON.stringify(cart));
+    console.log('Added to cart:', product.Name);
+}
 
-// Rest of your cart code...
+// Export getCart function
+export function getCart() {
+    return JSON.parse(localStorage.getItem('so-cart')) || [];
+}
+
+// ... rest of your cart code (renderCartContents, etc.)
