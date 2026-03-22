@@ -7,15 +7,17 @@
   
   async init() {
     const list = await this.dataSource.getData(this.category);
+    console.log('Products loaded:', list);  // Add this to debug
     this.renderList(list);
   }
   
   renderList(list) {
+    console.log('Rendering products:', list.length);  // Add this to debug
     const html = list.map(product => `
       <li class="product-card">
         <a href="/product_pages/?product=${product.Id}">
-          <img src="${product.Images?.PrimaryMedium || ''}" alt="${product.Name}">
-          <h3 class="card__brand">${product.Brand?.Name || 'Unknown'}</h3>
+          <img src="${product.Images.PrimaryMedium}" alt="${product.Name}">
+          <h3 class="card__brand">${product.Brand.Name}</h3>
           <h2 class="card__name">${product.Name}</h2>
           <p class="product-card__price">$${product.FinalPrice}</p>
         </a>
