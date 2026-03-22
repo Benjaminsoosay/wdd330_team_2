@@ -5,6 +5,12 @@ export default defineConfig({
   root: "src/",
   publicDir: "public",  // This tells Vite to copy files from src/public to dist
 
+  server: {
+    fs: {
+      strict: false
+    }
+  },
+
   build: {
     outDir: "../dist",
     rollupOptions: {
