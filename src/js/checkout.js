@@ -9,7 +9,7 @@ function displayOrderSummary() {
     const cart = getCart();
     const subtotal = cart.reduce((sum, item) => sum + item.FinalPrice, 0);
     const shipping = 10.00;
-    const tax = subtotal * 0.1;
+    const tax = subtotal * 0.1; // 10% tax (was multiplying by 100?)
     const total = subtotal + shipping + tax;
     
     const numberItemsElem = document.getElementById('numberItems');

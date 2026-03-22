@@ -7,22 +7,33 @@
   
   async init() {
     const list = await this.dataSource.getData(this.category);
-    console.log('Products loaded:', list);  // Add this to debug
     this.renderList(list);
   }
   
   renderList(list) {
-    console.log('Rendering products:', list.length);  // Add this to debug
     const html = list.map(product => `
       <li class="product-card">
-        <a href="/product_pages/?product=${product.Id}">
-          <img src="${product.Images.PrimaryMedium}" alt="${product.Name}">
-          <h3 class="card__brand">${product.Brand.Name}</h3>
-          <h2 class="card__name">${product.Name}</h2>
-          <p class="product-card__price">$${product.FinalPrice}</p>
-        </a>
+        <img src="${product.Images.PrimaryMedium}" alt="${product.Name}">
+        <h3 class="card__brand">${product.Brand.Name}</h3>
+        <h2 class="card__name">${product.Name}</h2>
+        <p class="product-card__price">$${product.FinalPrice}</p>
+        <button class="add-to-cart-btn" data-id="${product.Id}">Add to Cart</button>
       </li>
     `).join('');
     this.listElement.innerHTML = html;
+    
+    // Add event listeners for Add to Cart buttons
+    document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+      button.addEventListener('click', async (e) => {
+        const productId = e.target.dataset.id;
+        const product = list.find(p => p.Id === productId);
+        if (product) {
+          // Import addToCart dynamically to avoid circular dependencies
+          const { addToCart } = await import('./cart.mjs');
+          addToCart(product);
+          alert(`${product.Name} added to cart!`);
+        }
+      });
+    });
   }
 }
