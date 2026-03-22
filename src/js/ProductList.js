@@ -1,5 +1,4 @@
-﻿@'
-export default class ProductList {
+﻿export default class ProductList {
   constructor(category, dataSource, listElement) {
     this.category = category;
     this.dataSource = dataSource;
@@ -10,7 +9,7 @@ export default class ProductList {
     const list = await this.dataSource.getData(this.category);
     this.renderList(list);
   }
-  
+
   renderList(list) {
     const html = list.map(product => `
       <li class="product-card">
@@ -22,14 +21,12 @@ export default class ProductList {
       </li>
     `).join('');
     this.listElement.innerHTML = html;
-    
-    // Add event listeners for Add to Cart buttons
+
     document.querySelectorAll('.add-to-cart-btn').forEach(button => {
       button.addEventListener('click', async (e) => {
         const productId = e.target.dataset.id;
         const product = list.find(p => p.Id === productId);
         if (product) {
-          // Import addToCart dynamically to avoid circular dependencies
           const { addToCart } = await import('./cart.mjs');
           addToCart(product);
           alert(`${product.Name} added to cart!`);
@@ -38,4 +35,3 @@ export default class ProductList {
     });
   }
 }
-'@ | Out-File -FilePath src/js/ProductList.js -Encoding utf8
