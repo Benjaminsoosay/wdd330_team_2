@@ -20,6 +20,7 @@ export default defineConfig({
         checkout: resolve(__dirname, "src/checkout/index.html"),
         productListing: resolve(__dirname, "src/product_listing/index.html"),
         checkoutRedirect: resolve(__dirname, "src/checkout.html"),
+        productsRedirect: resolve(__dirname, "src/products.html"),
       },
     },
   },
