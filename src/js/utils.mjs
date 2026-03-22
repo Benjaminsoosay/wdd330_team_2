@@ -1,5 +1,20 @@
-// Add these functions to your existing utils.mjs
+// Existing functions
+export function getLocalStorage(key) {
+    return JSON.parse(localStorage.getItem(key)) || [];
+}
 
+export function setLocalStorage(key, data) {
+    localStorage.setItem(key, JSON.stringify(data));
+}
+
+// Add this function for URL parameters
+export function getParam(param) {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    return urlParams.get(param);
+}
+
+// Template functions for header/footer
 export async function loadTemplate(path) {
     const response = await fetch(path);
     const html = await response.text();
