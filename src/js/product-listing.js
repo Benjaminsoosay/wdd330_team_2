@@ -5,6 +5,15 @@ import { loadHeaderFooter, getParam } from './utils.mjs';
 loadHeaderFooter();
 
 const category = getParam('category');
+
+// Add this code to display the category name
+const categoryName = document.getElementById('category-name');
+if (categoryName && category) {
+    // Format the category name: replace hyphens with spaces and capitalize
+    const formattedCategory = category.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+    categoryName.textContent = formattedCategory;
+}
+
 // first create an instance of the ProductData class.
 const dataSource = new ProductData();
 // then get the element you want the product list to render in
