@@ -3,7 +3,7 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
   root: "src/",
-  publicDir: "public",  // This tells Vite to copy files from src/public to dist
+  publicDir: "public",
 
   server: {
     fs: {
@@ -19,6 +19,7 @@ export default defineConfig({
         cart: resolve(__dirname, "src/cart/index.html"),
         checkout: resolve(__dirname, "src/checkout/index.html"),
         products: resolve(__dirname, "src/products.html"),
+        checkoutRedirect: resolve(__dirname, "src/checkout.html"),  // Add this line
       },
     },
   },
