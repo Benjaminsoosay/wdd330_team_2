@@ -38,7 +38,10 @@ function displayProducts(products) {
     
     grid.innerHTML = products.map(product => `
         <div class="product-card">
-            <img src="${product.Image}" alt="${product.Name}" class="product-card__image">
+            <img src="${product.Image}" 
+                 alt="${product.Name}" 
+                 class="product-card__image"
+                 onerror="this.src='https://picsum.photos/300/300?random=${Math.floor(Math.random() * 1000)}'">
             <h3 class="product-card__name">${product.Name}</h3>
             <p class="product-card__price">$${product.FinalPrice}</p>
             <button class="add-to-cart-btn" data-id="${product.Id}">Add to Cart</button>
