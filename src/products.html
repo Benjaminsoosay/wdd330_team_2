@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sleep Outside | Cart</title>
-    <link rel="stylesheet" href="../css/style.css" />
-    <script type="module" src="../js/cart.mjs"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleep Outside | Products</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <script type="module" src="/js/products.js"></script>
 </head>
-
 <body>
-    <header class="divider" id="main-header">
+    <header class="divider">
         <div class="logo">
-            <img src="../images/noun_Tent_2517.svg" alt="tent image for logo" />
-            <a href="/cart/"> Sleep<span class="highlight">Outside</span></a>
+            <img src="/images/noun_Tent_2517.svg" alt="tent image for logo" />
+            <a href="/"> Sleep<span class="highlight">Outside</span></a>
         </div>
         
         <nav class="nav-links">
@@ -29,19 +28,12 @@
             </a>
         </div>
     </header>
-
+    
     <main class="divider">
-        <section class="products">
-            <h2>My Cart</h2>
-            <ul class="product-list"></ul>
-            <div class="list-footer hide">
-                <a href="/checkout.html">Checkout</a>
-                <span>Total:</span>
-                <span class="list-total">Total: </span>
-            </div>
-        </section>
+        <h1>Our Products</h1>
+        <div class="products-grid" id="product-grid"></div>
     </main>
-
+    
     <footer id="main-footer"></footer>
 </body>
 </html>
