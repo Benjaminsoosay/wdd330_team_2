@@ -1,4 +1,5 @@
-﻿export default class ProductList {
+﻿@'
+export default class ProductList {
   constructor(category, dataSource, listElement) {
     this.category = category;
     this.dataSource = dataSource;
@@ -37,3 +38,4 @@
     });
   }
 }
+'@ | Out-File -FilePath src/js/ProductList.js -Encoding utf8
