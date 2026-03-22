@@ -37,9 +37,18 @@ export default class ProductData {
       return data.Result;
     } catch (error) {
       console.warn('API failed for product detail, falling back to local JSON');
-      // You'll need to implement local product detail lookup
-      const products = await this.getData('tents'); // This will use fallback
-      return products.find(p => p.Id === id);
+      // Fall back to local JSON - search through all categories
+      const categories = ['tents', 'backpacks', 'sleeping-bags', 'hammocks'];
+      for (const category of categories) {
+        try {
+          const products = await this.getData(category);
+          const product = products.find(p => p.Id === id);
+          if (product) return product;
+        } catch (e) {
+          // Continue to next category
+        }
+      }
+      return null;
     }
   }
 }
