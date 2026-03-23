@@ -25,6 +25,7 @@ function renderCartContents() {
   const cartItems = getLocalStorage("so-cart") || [];
   const productList = document.querySelector(".product-list");
   const listFooter = document.querySelector(".list-footer");
+  const cartSummary = document.querySelector(".cart-summary");
   
   console.log('Cart items count:', cartItems.length);
   
@@ -41,7 +42,15 @@ function renderCartContents() {
     if (listFooter) {
       listFooter.classList.add("hide");
     }
+    if (cartSummary) {
+      cartSummary.classList.add("hide");
+    }
     return;
+  }
+  
+  // Show cart summary if it was hidden
+  if (cartSummary) {
+    cartSummary.classList.remove("hide");
   }
   
   // Display cart items
@@ -50,11 +59,25 @@ function renderCartContents() {
     productList.innerHTML = htmlItems.join("");
   }
   
-  // Calculate and display total
-  const total = cartItems.reduce((sum, item) => sum + item.FinalPrice, 0);
-  const totalElement = document.querySelector(".list-total");
+  // Calculate subtotal and total
+  const subtotal = cartItems.reduce((sum, item) => sum + (item.FinalPrice || item.price), 0);
+  const total = subtotal; // For cart page, subtotal equals total (tax/shipping added in checkout)
+  
+  // Update order summary
+  const subtotalElement = document.getElementById("cart-subtotal");
+  const totalElement = document.getElementById("cart-total");
+  
+  if (subtotalElement) {
+    subtotalElement.textContent = `$${subtotal.toFixed(2)}`;
+  }
   if (totalElement) {
-    totalElement.textContent = `Total: $${total.toFixed(2)}`;
+    totalElement.textContent = `$${total.toFixed(2)}`;
+  }
+  
+  // Also update the old list-total if it exists (for backward compatibility)
+  const oldTotalElement = document.querySelector(".list-total");
+  if (oldTotalElement) {
+    oldTotalElement.textContent = `Total: $${total.toFixed(2)}`;
   }
   
   // Show footer
@@ -72,12 +95,18 @@ function renderCartContents() {
 }
 
 function cartItemTemplate(item, index) {
+  // Handle both data structures (API might return different property names)
+  const imageUrl = item.Images?.PrimaryMedium || item.Image || item.image || '';
+  const itemName = item.Name || item.name;
+  const itemPrice = item.FinalPrice || item.price;
+  const itemColor = item.Colors?.[0]?.ColorName || item.color || 'N/A';
+  
   return `<li class="cart-card divider">
-    <img src="${item.Images?.PrimaryMedium || item.Image || ''}" alt="${item.Name}" class="cart-card__image">
-    <h2 class="card__name">${item.Name}</h2>
-    <p class="cart-card__color">${item.Colors?.[0]?.ColorName || 'N/A'}</p>
+    <img src="${imageUrl}" alt="${itemName}" class="cart-card__image">
+    <h2 class="card__name">${itemName}</h2>
+    <p class="cart-card__color">${itemColor}</p>
     <p class="cart-card__quantity">qty: 1</p>
-    <p class="cart-card__price">$${item.FinalPrice}</p>
+    <p class="cart-card__price">$${itemPrice.toFixed(2)}</p>
     <button class="remove-item" data-index="${index}">Remove</button>
   </li>`;
 }
