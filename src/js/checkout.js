@@ -1,51 +1,59 @@
-import ExternalServices from './ExternalServices.mjs';
-import CheckoutProcess from './CheckoutProcess.mjs';
-import { getLocalStorage } from './utils.mjs';
+import { loadHeaderFooter } from "./utils.mjs";
+import CheckoutProcess from "./CheckoutProcess.mjs";  
 
-// Get cart items from localStorage
-const cartItems = getLocalStorage('so-cart') || [];
+loadHeaderFooter();
 
-// Initialize checkout process
-const checkout = new CheckoutProcess(cartItems);
 
-// Calculate and display subtotal on page load
-checkout.calculateSubtotal();
-checkout.calculateTaxAndShipping();
-checkout.calculateOrderTotal();
+const order = new CheckoutProcess();
 
-// Handle zip code change for shipping recalculation
-document.getElementById('zip').addEventListener('change', () => {
-    checkout.calculateTaxAndShipping();
-    checkout.calculateOrderTotal();
-});
 
-// Handle form submission
-const form = document.getElementById('checkout-form');
-const externalServices = new ExternalServices();
+order.calculateSubtotal();
 
-form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    // Check if all fields are filled
-    if (!form.checkValidity()) {
-        form.reportValidity();
-        return;
-    }
-    
-    // Get form data
-    const formData = new FormData(form);
-    const orderData = Object.fromEntries(formData.entries());
-    
-    try {
-        const result = await checkout.checkout(orderData, externalServices);
+
+const zipInput = document.querySelector("#zip");
+if (zipInput) {
+    zipInput.addEventListener("blur", () => {
+        if (zipInput.value) {
+            order.calculateTotals();
+        }
+    });
+}
+
+
+const submitButton = document.querySelector("#checkoutSubmit");
+const checkoutForm = document.querySelector("#checkout-form"); // Make sure your form has this ID
+
+if (submitButton && checkoutForm) {
+    submitButton.addEventListener("click", async (e) => {
+        e.preventDefault();
         
-        // Clear cart on successful checkout
-        localStorage.removeItem('so-cart');
         
-        // Redirect to success page
-        window.location.href = '/checkout/success.html';
-    } catch (error) {
-        alert('There was an error processing your order. Please try again.');
-        console.error(error);
-    }
-});
+        if (!checkoutForm.checkValidity()) {
+            checkoutForm.reportValidity();
+            return;
+        }
+        
+        
+        const originalText = submitButton.textContent;
+        submitButton.textContent = "Processing...";
+        submitButton.disabled = true;
+        
+        try {
+            
+            if (!zipInput.value) {
+                alert("Please enter your zip code to calculate shipping and tax.");
+                return;
+            }
+            
+            order.calculateTotals();
+            await order.checkout(checkoutForm);
+            
+        } catch (error) {
+            console.error("Checkout error:", error);
+            alert(`Checkout failed: ${error.message || "Please try again."}`);
+        } finally {
+            submitButton.textContent = originalText;
+            submitButton.disabled = false;
+        }
+    });
+}
