@@ -1,32 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sleep Outside | Cart</title>
-    <link rel="stylesheet" href="/css/style.css" />
-    <script type="module">
-        import { loadHeaderFooter } from '/js/utils.mjs';
-        loadHeaderFooter();
-    </script>
-    <script type="module" src="/js/cart.mjs"></script>
-</head>
-
-<body>
-    <header class="divider" id="main-header"></header>
-
-    <main class="divider">
-        <section class="products">
-            <h2>My Cart</h2>
-            <ul class="product-list"></ul>
-            <div class="list-footer hide">
-                <a href="/checkout/">Checkout</a>
-                <span>Total:</span>
-                <span class="list-total">Total: </span>
-            </div>
-        </section>
-    </main>
-
-    <footer id="main-footer"></footer>
-</body>
-</html>
+<!-- Update your cart page HTML structure -->
+<main class="cart-main">
+  <h1>Shopping Cart</h1>
+  
+  <div class="cart-container">
+    <!-- Cart items section -->
+    <div class="cart-items">
+      <ul class="product-list cart-card-list">
+        <!-- Cart items will be rendered here -->
+      </ul>
+    </div>
+    
+    <!-- Order Summary Section (Add this) -->
+    <div class="cart-summary">
+      <h3>Order Summary</h3>
+      <div class="summary-details">
+        <div class="summary-row">
+          <span>Subtotal:</span>
+          <span id="cart-subtotal">$0.00</span>
+        </div>
+        <div class="summary-row total">
+          <span>Total:</span>
+          <span id="cart-total">$0.00</span>
+        </div>
+      </div>
+      <a href="/checkout/" class="checkout-button">Proceed to Checkout</a>
+    </div>
+  </div>
+  
+  <div class="list-footer hide">
+    <!-- Optional footer content -->
+  </div>
+</main>

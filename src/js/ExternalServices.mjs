@@ -8,7 +8,7 @@ function convertToJson(res) {
   }
 }
 
-export default class ProductData {
+export default class ExternalServices {
   constructor() {
     // No category or path needed anymore
   }
@@ -49,6 +49,27 @@ export default class ProductData {
         }
       }
       return null;
+    }
+  }
+  
+  async checkout(orderData) {
+    try {
+      const response = await fetch(`${baseURL}checkout`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(orderData)
+      });
+      
+      if (!response.ok) {
+        throw new Error('Checkout failed');
+      }
+      
+      return await response.json();
+    } catch (error) {
+      console.error('Error in checkout:', error);
+      throw error;
     }
   }
 }
