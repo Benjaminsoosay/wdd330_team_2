@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sleep Outside | Checkout</title>
   <link rel="stylesheet" href="../css/style.css" />
-  <script type="module" src="./checkout.js"></script>
+  <script type="module" src="/js/checkout.js"></script>
 </head>
 
 <body>
@@ -42,7 +42,8 @@
     <div class="checkout-grid">
       <!-- Checkout Form -->
       <div class="checkout-form">
-        <form id="checkout-form" name="checkout-form">
+        <!-- CHANGED: added name="checkout" for CheckoutProcess -->
+        <form id="checkout-form" name="checkout">
           <h2>Customer Information</h2>
           
           <div class="form-group">
@@ -103,12 +104,17 @@
       </div>
       
       <!-- Order Summary -->
-      <div class="order-summary">
+      <!-- CHANGED: added id="order-summary" and updated IDs inside -->
+      <div id="order-summary" class="order-summary">
         <h2>Order Summary</h2>
         <div class="summary-details">
           <div class="summary-row">
+            <span>Items:</span>
+            <span id="num-items">0</span>
+          </div>
+          <div class="summary-row">
             <span>Subtotal:</span>
-            <span id="subtotal">$0.00</span>
+            <span id="cartTotal">$0.00</span>
           </div>
           <div class="summary-row">
             <span>Tax (6%):</span>
@@ -120,7 +126,7 @@
           </div>
           <div class="summary-row total">
             <span>Order Total:</span>
-            <span id="order-total">$0.00</span>
+            <span id="orderTotal">$0.00</span>
           </div>
         </div>
       </div>
