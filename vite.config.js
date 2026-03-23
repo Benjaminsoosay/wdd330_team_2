@@ -2,9 +2,10 @@ import { resolve } from "path";
 import { defineConfig } from "vite";
 
 export default defineConfig({
+  base: '/', // Change this if deploying to subdirectory
   root: "src/",
   publicDir: "public",
-
+  
   server: {
     fs: {
       strict: false

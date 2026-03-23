@@ -1,59 +1,69 @@
-import { loadHeaderFooter } from "./utils.mjs";
-import CheckoutProcess from "./CheckoutProcess.mjs";  
+﻿import CheckoutProcess from "./CheckoutProcess.mjs";
 
-loadHeaderFooter();
+// Initialize checkout process
+const order = new CheckoutProcess("so-cart", "#order-summary");
+order.init();                 // loads cart and updates item summary
+order.calculateOrderTotal();  // calculates tax, shipping, and total
 
-
-const order = new CheckoutProcess();
-
-
-order.calculateSubtotal();
-
-
+// Add event listener for zip code changes
 const zipInput = document.querySelector("#zip");
 if (zipInput) {
-    zipInput.addEventListener("blur", () => {
+    zipInput.addEventListener("change", () => {
         if (zipInput.value) {
-            order.calculateTotals();
+            order.calculateOrderTotal(); // recalculate totals (tax is fixed 6%, but shipping depends on item count)
         }
     });
 }
 
-
-const submitButton = document.querySelector("#checkoutSubmit");
-const checkoutForm = document.querySelector("#checkout-form"); // Make sure your form has this ID
-
-if (submitButton && checkoutForm) {
-    submitButton.addEventListener("click", async (e) => {
+// Handle form submission
+const checkoutForm = document.querySelector("#checkout-form");
+if (checkoutForm) {
+    checkoutForm.addEventListener("submit", async (e) => {
         e.preventDefault();
-        
-        
+
+        // Validate all required fields
         if (!checkoutForm.checkValidity()) {
             checkoutForm.reportValidity();
             return;
         }
-        
-        
-        const originalText = submitButton.textContent;
-        submitButton.textContent = "Processing...";
-        submitButton.disabled = true;
-        
+
+        // Get the submit button
+        const submitBtn = checkoutForm.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+
         try {
-            
-            if (!zipInput.value) {
+            // Disable button and show processing
+            submitBtn.textContent = "Processing...";
+            submitBtn.disabled = true;
+
+            // Make sure zip is filled
+            if (!zipInput || !zipInput.value) {
                 alert("Please enter your zip code to calculate shipping and tax.");
                 return;
             }
-            
-            order.calculateTotals();
-            await order.checkout(checkoutForm);
-            
+
+            // Recalculate totals one more time
+            order.calculateOrderTotal();
+
+            // Submit the order
+            const result = await order.checkout();
+
+            // Clear cart and show success
+            if (result && result.orderId) {
+                localStorage.removeItem('so-cart');
+                alert(`Order placed successfully! Your order ID is: ${result.orderId}`);
+                window.location.href = '/';
+            } else {
+                throw new Error('Order submission failed');
+            }
+
         } catch (error) {
             console.error("Checkout error:", error);
-            alert(`Checkout failed: ${error.message || "Please try again."}`);
+            alert(`Checkout failed: ${error.message}`);
         } finally {
-            submitButton.textContent = originalText;
-            submitButton.disabled = false;
+            // Re-enable the button
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
         }
     });
 }
