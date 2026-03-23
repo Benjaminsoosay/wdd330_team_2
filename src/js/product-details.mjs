@@ -48,9 +48,11 @@ function renderProductDetails(product) {
   
   const imageUrl = product.Images?.PrimaryMedium || product.Image || '';
   const price = product.FinalPrice || product.price || 0;
+  const brand = product.Brand?.Name || '';
   
   container.innerHTML = `
     <h2>${product.Name || product.name}</h2>
+    ${brand ? `<h3 class="product-brand">${brand}</h3>` : ''}
     <img src="${imageUrl}" alt="${product.Name || product.name}" class="product-image">
     <p class="product-price">$${price.toFixed(2)}</p>
     <p class="product-description">${product.Description || product.description || 'No description available'}</p>
