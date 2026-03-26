@@ -47,3 +47,37 @@ export default class ProductList {
         }
       });
     })
+
+    async function loadSearchResults() {
+  const params = new URLSearchParams(window.location.search);
+  const searchTerm = params.get('search');
+
+  if (!searchTerm) return;
+
+  try {
+    const response = await services.searchProducts(searchTerm); // your API call
+    displayProducts(response);
+  } catch (err) {
+    console.error("Search error:", err);
+    alertMessage(`Search failed: ${err.message || "Please try again."}`);
+  }
+}
+
+function displayProducts(products) {
+  const listContainer = document.querySelector('#productList');
+  listContainer.innerHTML = '';
+
+  products.forEach(product => {
+    const item = document.createElement('div');
+    item.classList.add('product-card');
+    item.innerHTML = `
+      <h3>${product.name}</h3>
+      <p>${product.description}</p>
+      <p>Price: $${product.price}</p>
+      <button onclick="addToCart(${product.id})">Add to Cart</button>
+    `;
+    listContainer.appendChild(item);
+  });
+}
+
+loadSearchResults();
