@@ -1,4 +1,5 @@
 import { getLocalStorage } from "./utils.mjs";
+import { alertMessage } from "./utils.mjs";
 import ExternalServices from "./ExternalServices.mjs";
 
 const services = new ExternalServices();
@@ -118,29 +119,19 @@ export default class CheckoutProcess {
     console.log("Submitting order:", order);
 
     try {
-      const response = await services.checkout(order);
-      console.log("Order successful:", response);
-      
-      // Clear cart on successful order
-      if (response && response.orderId) {
-        localStorage.removeItem(this.key);
-        // Redirect to success page or home page
-        window.location.href = "/success.html";
-      }
-      
-      return response;
-  } catch (err) {
-    console.error("Checkout error:", err);
-
-    // Show detailed error message if available
-    const errorMessage =
-      typeof err.message === "object"
-        ? JSON.stringify(err.message)
-        : err.message || "Please try again.";
-
-    alert(`Checkout failed: ${errorMessage}`);
-    return null; // stop gracefully
-
+  const response = await services.checkout(order);
+  if (response && response.orderId) {
+    localStorage.removeItem(this.key);
+    alertMessage("Order placed successfully! Thank you for your purchase.", true);
+    window.location.href = "/checkout/success.html";
   }
+} catch (err) {
+  const errorMessage =
+    typeof err.message === "object"
+      ? JSON.stringify(err.message)
+      : err.message || "Please try again.";
+  alertMessage(`Checkout failed: ${errorMessage}`, true);
+}
+
 }
 }
