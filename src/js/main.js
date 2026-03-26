@@ -1,6 +1,6 @@
 // main.js
 import ProductList from "./productList.mjs";
-import ProductData from "./ProductData.mjs";
+import ExternalServices from "./ExternalServices.mjs";
 import { loadHeaderFooter } from "./utils.mjs";
 
 const listElement = document.querySelector("#product-list");

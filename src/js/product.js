@@ -1,8 +1,8 @@
 import { getLocalStorage, setLocalStorage } from './utils.mjs';
-import ProductData from './ProductData.mjs';
+import ExternalServices from './ExternalServices.mjs';
 import productDetails from "./productDetail.mjs";
 
-const dataSource = new ProductData('tents');
+const dataSource = new ExternalServices('tents');
 
 function addProductToCart(product) {
   // get cart array of items from local storage, or set to empty array if null

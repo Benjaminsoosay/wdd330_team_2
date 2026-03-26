@@ -33,3 +33,17 @@ export default class ProductList {
   }
 
 }
+
+ // Add to cart button functionality
+    document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+      button.addEventListener('click', async (e) => {
+        e.stopPropagation(); // Prevent triggering the link
+        const productId = e.target.dataset.id;
+        const product = list.find(p => p.Id === productId);
+        if (product) {
+          const { addToCart } = await import('./cart.mjs');
+          addToCart(product);
+          alert(`${product.Name} added to cart!`);
+        }
+      });
+    })
