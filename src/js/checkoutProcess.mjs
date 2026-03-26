@@ -100,7 +100,7 @@ export default class CheckoutProcess {
     // Validate form
     if (!formElement.checkValidity()) {
       formElement.reportValidity();
-      throw new Error("Please fill out all required fields");
+      return;
     }
     
     // Make sure totals are calculated before checkout
@@ -124,16 +124,23 @@ export default class CheckoutProcess {
       // Clear cart on successful order
       if (response && response.orderId) {
         localStorage.removeItem(this.key);
-        alert("Order placed successfully! Thank you for your purchase.");
         // Redirect to success page or home page
-        // window.location.href = "/success.html";
+        window.location.href = "/success.html";
       }
       
       return response;
-    } catch (err) {
-      console.error("Checkout error:", err);
-      alert(`Checkout failed: ${err.message || "Please try again."}`);
-      throw err;
-    }
+  } catch (err) {
+    console.error("Checkout error:", err);
+
+    // Show detailed error message if available
+    const errorMessage =
+      typeof err.message === "object"
+        ? JSON.stringify(err.message)
+        : err.message || "Please try again.";
+
+    alert(`Checkout failed: ${errorMessage}`);
+    return null; // stop gracefully
+
   }
+}
 }
