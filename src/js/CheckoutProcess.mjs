@@ -20,7 +20,7 @@ function packageItems(items) {
       id: item.Id,
       price: item.FinalPrice,
       name: item.Name,
-      quantity: item.quantity || 1,  // Use stored quantity or default to 1
+      quantity: 1,
     };
   });
   return simplifiedItems;
@@ -40,8 +40,6 @@ export default class CheckoutProcess {
   init() {
     this.list = getLocalStorage(this.key);
     this.calculateItemSummary();
-    // Optionally calculate initial totals (without shipping/tax until zip is entered)
-    // this.calculateOrderTotal(); // Uncomment if you want to show totals immediately
   }
 
   calculateItemSummary() {
@@ -52,34 +50,23 @@ export default class CheckoutProcess {
     const itemNumElement = document.querySelector(
       this.outputSelector + " #num-items"
     );
-    
-    // Calculate total number of items (accounting for quantities)
-    const totalItems = this.list.reduce((total, item) => total + (item.quantity || 1), 0);
-    itemNumElement.innerText = totalItems;
-    
+    itemNumElement.innerText = this.list.length;
     // calculate the total of all the items in the cart
-    const amounts = this.list.map((item) => (item.FinalPrice * (item.quantity || 1)));
-    this.itemTotal = amounts.reduce((sum, item) => sum + item, 0);
-    summaryElement.innerText = `$${this.itemTotal.toFixed(2)}`;
+    const amounts = this.list.map((item) => item.FinalPrice);
+    this.itemTotal = amounts.reduce((sum, item) => sum + item);
+    summaryElement.innerText = `$${this.itemTotal}`;;
   }
 
   calculateOrderTotal() {
-    // calculate the shipping and tax amounts
-    // Tax: 6% of subtotal
-    this.tax = this.itemTotal * 0.06;
-    
-    // Shipping: $10 for first item + $2 for each additional item
-    const totalItems = this.list.reduce((total, item) => total + (item.quantity || 1), 0);
-    if (totalItems === 0) {
-      this.shipping = 0;
-    } else {
-      this.shipping = 10 + (totalItems - 1) * 2;
-    }
-    
-    // Calculate order total
-    this.orderTotal = this.itemTotal + this.tax + this.shipping;
-    
-    // display the totals
+    // calculate the shipping and tax amounts. Then use them to along with the cart total to figure out the order total
+    this.tax = (this.itemTotal * .06);
+    this.shipping = 10 + (this.list.length - 1) * 2;
+    this.orderTotal = (
+      parseFloat(this.itemTotal) +
+      parseFloat(this.tax) +
+      parseFloat(this.shipping)
+    )
+    // display the totals.
     this.displayOrderTotals();
   }
 
@@ -89,51 +76,27 @@ export default class CheckoutProcess {
     const shipping = document.querySelector(`${this.outputSelector} #shipping`);
     const orderTotal = document.querySelector(`${this.outputSelector} #orderTotal`);
 
-    if (tax) tax.innerText = `$${this.tax.toFixed(2)}`;
-    if (shipping) shipping.innerText = `$${this.shipping.toFixed(2)}`;
-    if (orderTotal) orderTotal.innerText = `$${this.orderTotal.toFixed(2)}`;
+    tax.innerText = `$${this.tax.toFixed(2)}`;
+    shipping.innerText = `$${this.shipping.toFixed(2)}`;
+    orderTotal.innerText = `$${this.orderTotal.toFixed(2)}`;
   }
 
   async checkout() {
     const formElement = document.forms["checkout"];
-    
-    // Validate form
-    if (!formElement.checkValidity()) {
-      formElement.reportValidity();
-      throw new Error("Please fill out all required fields");
-    }
-    
-    // Make sure totals are calculated before checkout
-    // This ensures shipping/tax are up to date
-    this.calculateOrderTotal();
-    
     const order = formDataToJSON(formElement);
 
     order.orderDate = new Date().toISOString();
-    order.orderTotal = this.orderTotal.toFixed(2);
-    order.tax = this.tax.toFixed(2);
+    order.orderTotal = this.orderTotal;
+    order.tax = this.tax;
     order.shipping = this.shipping;
     order.items = packageItems(this.list);
-    
-    console.log("Submitting order:", order);
+    //console.log(order);
 
     try {
       const response = await services.checkout(order);
-      console.log("Order successful:", response);
-      
-      // Clear cart on successful order
-      if (response && response.orderId) {
-        localStorage.removeItem(this.key);
-        alert("Order placed successfully! Thank you for your purchase.");
-        // Redirect to success page or home page
-        // window.location.href = "/success.html";
-      }
-      
-      return response;
+      console.log(response);
     } catch (err) {
-      console.error("Checkout error:", err);
-      alert(`Checkout failed: ${err.message || "Please try again."}`);
-      throw err;
+      console.log(err);
     }
   }
 }
