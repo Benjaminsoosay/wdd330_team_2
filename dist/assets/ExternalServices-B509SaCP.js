@@ -1,1 +1,33 @@
-function s(e){if(e.ok)return e.json();throw new Error(`API Error: ${e.status} - ${e.statusText}`)}class n{constructor(){}async getData(a){const o=await fetch(`undefinedproducts/search/${a}`);return(await s(o)).Result}async findProductById(a){const o=await fetch(`undefinedproduct/${a}`);return(await s(o)).Result}async checkout(a){const o={method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(a)};try{const t=await fetch("undefinedcheckout",o);return await s(t)}catch(t){throw console.error("Checkout failed:",t),t}}}export{n as E};
+const baseURL = "http://server-nodejs.cit.byui.edu:3000/";
+
+async function convertToJson(res) {
+  const data = await res.json();
+  if (res.ok) {
+    return data;
+  } else {
+    throw { name: "servicesError", message: data };
+  }
+}
+
+export default class ExternalServices {
+  async getData(category) {
+    const response = await fetch(baseURL + `products/search/${category}`);
+    const data = await convertToJson(response);
+    return data.Result;
+  }
+  async findProductById(id) {
+    const response = await fetch(baseURL + `product/${id}`);
+    const data = await convertToJson(response);
+    return data.Result;
+  }
+  async checkout(payload) {
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    };
+    return await fetch(baseURL + "checkout/", options).then(convertToJson);
+  }
+}
