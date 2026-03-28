@@ -1,5 +1,4 @@
-const baseURL = "https://server-nodejs.cit.byui.edu:3000/";
-
+const baseURL = "http://server-nodejs.cit.byui.edu:3000/";
 async function convertToJson(res) {
   const data = await res.json();
   if (res.ok) {
@@ -10,6 +9,10 @@ async function convertToJson(res) {
 }
 
 export default class ExternalServices {
+  constructor(category) {
+    // this.category = category;
+    // this.path = `../json/${this.category}.json`;
+  }
   async getData(category) {
     const response = await fetch(baseURL + `products/search/${category}`);
     const data = await convertToJson(response);
