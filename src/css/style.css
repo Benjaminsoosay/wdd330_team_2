@@ -1,6 +1,6 @@
 :root {
   --font-body: Arial, Helvetica, sans-serif;
-  --font-headline: Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  --font-headline: "Arial Narrow Bold", sans-serif;
   /* colors */
   --primary-color: #f0a868;
   --secondary-color: #525b0f;
@@ -316,4 +316,33 @@ button {
 footer {
   font-size: var(--small-font);
   padding: 1em;
+}
+
+.icons {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.wishlist-icon {
+  position: relative;
+  font-size: 1.8rem;
+  color: #333;
+  text-decoration: none;
+}
+
+.wishlist-count {
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  background-color: #e74c3c;
+  color: white;
+  font-size: 0.75rem;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
 }
