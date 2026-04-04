@@ -1,6 +1,6 @@
 :root {
   --font-body: Arial, Helvetica, sans-serif;
-  --font-headline: Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  --font-headline: "Arial Narrow Bold", sans-serif;
   /* colors */
   --primary-color: #f0a868;
   --secondary-color: #525b0f;
@@ -316,4 +316,47 @@ button {
 footer {
   font-size: var(--small-font);
   padding: 1em;
+}
+/* ====================== Call to Action - Register ====================== */
+.cta-register {
+  background: linear-gradient(135deg, #2c3e50, #34495e);
+  color: white;
+  padding: .5rem 1rem;
+  margin: 1rem auto;
+  max-width: 600px;
+  border-radius: 16px;
+  width: 90%;
+}
+
+.cta-register h2 {
+  font-size: 2.1rem;
+  line-height: 1;
+}
+
+.cta-register p {
+  font-size: 1.05rem;
+  max-width: 520px;
+  line-height: 1.5;
+}
+
+.register-button {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  background: linear-gradient(135deg, #27ae60, #2ecc71);
+  color: white;
+  padding: 12px 40px;
+  margin: .5rem auto;
+  font-size: 1.18rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 50px;
+  box-shadow: 0 8px 22px rgba(39, 174, 96, 0.35);
+  transition: all 0.3s ease;
+}
+
+.register-button:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(39, 174, 96, 0.45);
 }
