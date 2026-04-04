@@ -1,0 +1,46 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  background: #F9F7F3;
+  color: #2C3E4E;
+}
+
+#photoGallery img {
+  width: 150px;
+  margin: 5px;
+  border-radius: 8px;
+}
+
+header {
+  margin-bottom: 20px;
+  background: #1E3E62;
+  color: white;
+  padding: 15px;
+}
+
+main {
+  display: flex;
+  gap: 20px;
+}
+
+#countryInfo {
+  width: 30%;
+}
+
+#photoGallery {
+  width: 70%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+button {
+  background: #FFB347;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+#countryInfo img {
+  display: block;
+  margin: 10px 0;
+}
