@@ -65,10 +65,6 @@ async function loadTemplate(path) {
 export async function loadHeaderFooter() {
   const headerTemplate = await loadTemplate('/partials/header.html');
   const footerTemplate = await loadTemplate('/partials/footer.html');
-// Main function to load header and footer on every page
-export async function loadHeaderFooter() {
-  const headerTemplate = await loadTemplate('/partials/header.html');
-  const footerTemplate = await loadTemplate('/partials/footer.html');
 
   const headerElement = document.querySelector('#main-header');
   const footerElement = document.querySelector('#main-footer');
@@ -76,6 +72,7 @@ export async function loadHeaderFooter() {
   if (headerElement) {
     renderWithTemplate(headerTemplate, headerElement);
   }
+
   if (footerElement) {
     renderWithTemplate(footerTemplate, footerElement);
   }
