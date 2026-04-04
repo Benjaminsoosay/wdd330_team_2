@@ -1,4 +1,4 @@
-import { renderListWithTemplate } from "./utils.mjs";
+import { renderListWithTemplate } from './utils.mjs';
 
 function productCardTemplate(product) {
   return `
@@ -9,6 +9,11 @@ function productCardTemplate(product) {
         <p>${product.NameWithoutBrand}</p>
         <p class="product-card__price">$${product.FinalPrice}</p>
       </a>
+      
+      <!-- Wishlist Button -->
+      <button class="wishlist-btn" data-id="${product.Id}">
+        ❤️
+      </button>
     </li>
     `;
 }
@@ -21,18 +26,26 @@ export default class ProductList {
   }
 
   async init() {
-    const list = await this.dataSource.getData(this.category);
-    this.renderList(list);
-    document.querySelector(".title").textContent = this.category;
+    try {
+      const list = await this.dataSource.getData(this.category);
+      console.log('Products loaded:', list);
+
+      this.renderList(list);
+
+      // Update the page title dynamically
+      const titleElement = document.querySelector('#category-title');
+      if (titleElement) {
+        const capitalized =
+          this.category.charAt(0).toUpperCase() + this.category.slice(1);
+        titleElement.textContent = `Top Products: ${capitalized}`;
+      }
+    } catch (error) {
+      console.error('Error loading products:', error);
+    }
   }
 
+  // This method was missing
   renderList(list) {
-    // const htmlStrings = list.map(productCardTemplate);
-    // this.listElement.insertAdjacentHTML("afterbegin", htmlStrings.join(""));
-
-    // apply use new utility function instead of the commented code above
     renderListWithTemplate(productCardTemplate, this.listElement, list);
-
   }
-
 }

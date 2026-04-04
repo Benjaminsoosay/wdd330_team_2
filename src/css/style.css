@@ -323,6 +323,36 @@ footer {
   padding: 1em;
 }
 
+/* ====================== Wishlist Icon Styles ====================== */
+.icons {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.wishlist-icon {
+  position: relative;
+  font-size: 1.8rem;
+  color: #333;
+  text-decoration: none;
+}
+
+.wishlist-count {
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  background-color: #e74c3c;
+  color: white;
+  font-size: 0.75rem;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
 /* ====================== Categories & CTA ====================== */
 .categories {
   padding: 2rem 1rem;
@@ -364,7 +394,6 @@ footer {
 }
 
 /* Call to Action - Register */
-/* Call to Action - Register */
 .cta-register {
   background: linear-gradient(135deg, #2c3e50, #34495e);
   color: white;
@@ -401,5 +430,4 @@ footer {
 .cta-button:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 28px rgba(39, 174, 96, 0.45);
-  background: linear-gradient(135deg, #2ecc71, #27ae60);
 }
