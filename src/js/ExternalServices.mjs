@@ -14,9 +14,18 @@ export default class ExternalServices {
     // this.path = `../public/json/${this.category}.json`;
   }
   async getData(category) {
-    const response = await fetch(`${baseURL}products/search/${category}`);
+    const baseURL = import.meta.env.VITE_SERVER_URL;
+    if (!baseURL) {
+      console.error('VITE_SERVER_URL is not defined');
+      throw new Error('API base URL is missing');
+    }
+
+    const url = `${baseURL}products/search/${category}`;
+    console.log('Fetching from:', url); // helpful for debugging on live site
+
+    const response = await fetch(url);
     const data = await convertToJson(response);
-    
+
     return data.Result;
   }
   async findProductById(id) {
@@ -28,9 +37,9 @@ export default class ExternalServices {
 
   async checkout(payload) {
     const options = {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(payload),
     };
