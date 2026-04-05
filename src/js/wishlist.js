@@ -35,7 +35,7 @@ async function loadWishlist() {
 
       listElement.innerHTML += itemHTML;
     } catch (error) {
-      console.error(`Failed to load product ${id}:`, error);
+      //console.error(`Failed to load product ${id}:`, error);
     }
   }
 }

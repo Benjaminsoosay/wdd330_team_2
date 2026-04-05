@@ -28,7 +28,7 @@ export default class ProductList {
   async init() {
     try {
       const list = await this.dataSource.getData(this.category);
-      console.log('Products loaded:', list);
+      //console.log('Products loaded:', list);
 
       this.renderList(list);
 
@@ -40,7 +40,7 @@ export default class ProductList {
         titleElement.textContent = `Top Products: ${capitalized}`;
       }
     } catch (error) {
-      console.error('Error loading products:', error);
+      //console.error('Error loading products:', error);
     }
   }
 
