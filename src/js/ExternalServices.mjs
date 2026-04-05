@@ -14,14 +14,12 @@ export default class ExternalServices {
     // this.path = `../public/json/${this.category}.json`;
   }
   async getData(category) {
-    const baseURL = import.meta.env.VITE_SERVER_URL;
-    if (!baseURL) {
-      console.error('VITE_SERVER_URL is not defined');
-      throw new Error('API base URL is missing');
-    }
+    const baseURL = 'https://wdd330-backend.onrender.com/'; // Hardcoded for now
+
+    console.log('Using hardcoded baseURL:', baseURL);
 
     const url = `${baseURL}products/search/${category}`;
-    console.log('Fetching from:', url); // helpful for debugging on live site
+    console.log('Fetching from:', url);
 
     const response = await fetch(url);
     const data = await convertToJson(response);
