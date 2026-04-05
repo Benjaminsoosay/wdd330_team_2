@@ -14,9 +14,8 @@ export default class ExternalServices {
     // this.path = `../public/json/${this.category}.json`;
   }
   async getData(category) {
-    const baseURL = 'https://wdd330-backend.onrender.com/'; // Hardcoded for now
-
-    console.log('Using hardcoded baseURL:', baseURL);
+    const baseURL =
+      import.meta.env.VITE_SERVER_URL || 'https://wdd330-backend.onrender.com/';
 
     const url = `${baseURL}products/search/${category}`;
     console.log('Fetching from:', url);
@@ -27,9 +26,15 @@ export default class ExternalServices {
     return data.Result;
   }
   async findProductById(id) {
-    const response = await fetch(`${baseURL}product/${id}`);
+    const baseURL =
+      import.meta.env.VITE_SERVER_URL || 'https://wdd330-backend.onrender.com/';
+
+    const url = `${baseURL}product/${id}`;
+    console.log('Fetching product from:', url); // for debugging
+
+    const response = await fetch(url);
     const data = await convertToJson(response);
-    // console.log(data.Result);
+
     return data.Result;
   }
 
