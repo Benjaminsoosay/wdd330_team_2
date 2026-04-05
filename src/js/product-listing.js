@@ -4,15 +4,21 @@ import ProductList from './ProductList.mjs';
 
 loadHeaderFooter();
 
-const category = getParam('category') || 'tents';
+let category = getParam('category');
+
+if (!category) {
+  
+  category = 'tents';
+}
+
+// Debugging
+
 
 const dataSource = new ExternalServices();
-const listElement = document.querySelector('.product-list');
-
-const listing = new ProductList(category, dataSource, listElement);
+const element = document.querySelector('.product-list');
+const listing = new ProductList(category, dataSource, element);
 
 listing.init();
-
 // ==================== Wishlist System - Final Clean Version ====================
 
 let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];

@@ -90,6 +90,6 @@ export function updateWishlistCount() {
       countElement.textContent = wishlist.length;
     }
   } catch (e) {
-    console.warn('Could not update wishlist count');
+    //console.warn('Could not update wishlist count');
   }
 }
