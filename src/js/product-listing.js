@@ -4,18 +4,18 @@ import ProductList from './ProductList.mjs';
 
 loadHeaderFooter();
 
-let category = getParam('category');
+
+let category = getParam("category");
 
 if (!category) {
-  
-  category = 'tents';
+  console.warn("No category in URL, defaulting to tents");
+  category = "tents";
 }
 
-// Debugging
-
+console.log("Category from URL:", category);   
 
 const dataSource = new ExternalServices();
-const element = document.querySelector('.product-list');
+const element = document.querySelector(".product-list");
 const listing = new ProductList(category, dataSource, element);
 
 listing.init();
