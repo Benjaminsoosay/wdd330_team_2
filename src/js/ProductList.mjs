@@ -11,13 +11,13 @@ function productCardTemplate(product) {
       </a>
       
       <!-- Wishlist Button -->
-      <button class="wishlist-btn" data-id="${product.Id}">
-        ❤️
-      </button>
+      <button class="wishlist-btn" data-id="${product.Id}">❤️</button>
+      
+      <!-- Quick View Button -->
+      <button class="quick-view-btn" data-id="${product.Id}">Quick View</button>
     </li>
-    `;
+  `;
 }
-
 export default class ProductList {
   constructor(category, dataSource, listElement) {
     this.category = category;
