@@ -74,3 +74,60 @@ setTimeout(() => {
   updateWishlistCount();
   restoreWishlistState();
 }, 500);
+
+// ==================== Quick View Modal ====================
+
+const modal = document.getElementById('quick-view-modal');
+const modalContent = document.getElementById('modal-product-details');
+const closeModalBtn = document.querySelector('.close-modal');
+
+function showQuickView(product) {
+  const description = product.Description
+    ? `<p class="modal-description">${product.Description}</p>`
+    : `<p class="modal-description">
+         Sleep Outside provides high-quality camping and outdoor gear designed for comfort, 
+         durability, and affordability. Perfect for your next adventure in nature.
+       </p>`;
+
+  modalContent.innerHTML = `
+    <h2>${product.NameWithoutBrand}</h2>
+    <h3>${product.Brand.Name}</h3>
+    <p style="font-size:1.35rem; color:#525b0f; font-weight:600; margin:1rem 0;">
+      $${product.FinalPrice}
+    </p>
+    
+    ${description}
+    
+    <button class="wishlist-btn" data-id="${product.Id}" style="margin-top:1.5rem;">
+      ❤️ Add to Wishlist
+    </button>
+  `;
+  modal.style.display = 'block';
+}
+
+// Close modal when clicking the × button
+closeModalBtn.addEventListener('click', () => {
+  modal.style.display = "none";
+});
+
+// Close modal when clicking outside the modal content
+window.addEventListener('click', (e) => {
+  if (e.target === modal) {
+    modal.style.display = "none";
+  }
+});
+
+// Event delegation for Quick View buttons
+document.addEventListener('click', async (e) => {
+  if (e.target.classList.contains('quick-view-btn')) {
+    const productId = e.target.getAttribute('data-id');
+    
+    try {
+      const product = await dataSource.findProductById(productId);
+      showQuickView(product);
+    } catch (error) {
+      console.error("Failed to load quick view:", error);
+      alert("Sorry, could not load product details at the moment.");
+    }
+  }
+});
